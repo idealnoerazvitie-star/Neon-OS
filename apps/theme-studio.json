@@ -1,0 +1,9 @@
+{
+  "name": "Neon Theme Studio",
+  "version": "1.0.0",
+  "category": "Customization",
+  "license": "Free",
+  "signature": "sha256:theme-studio-v1-signed",
+  "sandbox": "restricted-user",
+  "description": "Customize Neon OS themes, widgets, and accent colors."
+}

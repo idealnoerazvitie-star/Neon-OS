@@ -31,10 +31,17 @@ char keyboard_read(void) {
         return 0;
     }
 
-    static const char rows[] = "1234567890-=
-qwertyuiop[]\nasdfghjkl;'\nzxcvbnm,./";
+    static const char rows[] = "1234567890-=qwertyuiop[]asdfghjkl;'zxcvbnm,./";
     if (scan >= 0x02 && scan <= 0x3A) {
         return rows[scan - 0x02];
+    }
+
+    if (scan == 0x1C) {
+        return '\n';
+    }
+
+    if (scan == 0x0E) {
+        return '\b';
     }
 
     return 0;

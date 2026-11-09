@@ -6,7 +6,8 @@ This repository now includes:
 - BIOS bootloader and protected-mode startup sequence
 - VGA text-mode kernel with dark neon styling
 - keyboard driver foundation for user interaction
-- filesystem and memory layer prototypes
+- memory and filesystem layer prototypes
+- real process and desktop scaffolding for future userland integration
 - app market / installer model for signed-free software
 - malware detection and security documentation
 - architecture and hardening docs for future expansion

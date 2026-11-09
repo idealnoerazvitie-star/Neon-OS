@@ -10,6 +10,8 @@ The kernel is structured into a few major subsystems:
 - filesystem registry
 - keyboard handling
 - IDT/PIC control
+- process manager
+- desktop widget system
 - package verification and app install manager
 
 ## 3. Security model

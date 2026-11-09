@@ -24,6 +24,19 @@ struct neon_file {
     uint8_t trusted;
 };
 
+struct neon_process {
+    uint32_t pid;
+    char name[16];
+    uint32_t priority;
+    uint8_t running;
+};
+
+struct neon_widget {
+    uint32_t id;
+    char label[16];
+    uint8_t visible;
+};
+
 void clear_screen(void);
 void put_char(char ch);
 void print(const char *text);
@@ -39,5 +52,11 @@ void keyboard_init(void);
 char keyboard_read(void);
 int scan_package(const char *package_name, const char *signature);
 void install_package(const char *package_name, const char *signature);
+void process_init(void);
+void process_list(void);
+void desktop_init(void);
+void widget_list(void);
+void shell_run(void);
+void dispatch_command(const char *command);
 
 #endif

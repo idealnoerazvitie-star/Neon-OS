@@ -90,6 +90,8 @@ static void cmd_help(void) {
     print("scan       Run malware scan\n");
     print("install    Install a signed package\n");
     print("memory     Show memory state\n");
+    print("process    Show process list\n");
+    print("desktop    Show desktop widgets\n");
     print("clear      Clear screen\n");
     print("reboot     Restart OS\n");
 }
@@ -97,7 +99,7 @@ static void cmd_help(void) {
 static void cmd_whoami(void) {
     print("User: root\n");
     print("Role: Neon administrator\n");
-    print("Shell: neon-shell v0.5\n");
+    print("Shell: neon-shell v0.6\n");
 }
 
 static void cmd_ls(void) {
@@ -111,11 +113,12 @@ static void cmd_ls(void) {
 }
 
 static void cmd_sysinfo(void) {
-    print("Neon OS v0.5\n");
+    print("Neon OS v0.6\n");
     print("Architecture: x86 protected-mode prototype\n");
     print("Kernel: freestanding C + VGA shell\n");
     print("Theme: Dark Black + Neon Green\n");
     print("Security: signed app checks\n");
+    print("Process manager: active\n");
 }
 
 static void cmd_theme(void) {
@@ -150,6 +153,15 @@ static void cmd_memory(void) {
     memory_dump();
 }
 
+static void cmd_process(void) {
+    process_list();
+}
+
+static void cmd_desktop(void) {
+    desktop_init();
+    widget_list();
+}
+
 static void cmd_clear(void) {
     clear_screen();
     print("Neon OS shell initialized.\n");
@@ -160,7 +172,7 @@ static void cmd_reboot(void) {
     __asm__ volatile ("cli; hlt");
 }
 
-static void dispatch_command(const char *command) {
+void dispatch_command(const char *command) {
     if (command[0] == '\0') {
         return;
     }
@@ -201,6 +213,14 @@ static void dispatch_command(const char *command) {
         cmd_memory();
         return;
     }
+    if (str_equals(command, "process")) {
+        cmd_process();
+        return;
+    }
+    if (str_equals(command, "desktop")) {
+        cmd_desktop();
+        return;
+    }
     if (str_equals(command, "clear")) {
         cmd_clear();
         return;
@@ -214,11 +234,12 @@ static void dispatch_command(const char *command) {
 }
 
 static void demo_banner(void) {
-    print("Neon OS v0.5\n");
+    print("Neon OS v0.6\n");
     print("Dark mode active\n");
     print("Kali-inspired shell ready\n");
     print("Store security: verified packages only\n");
     print("Malware scanning: enabled\n");
+    print("Desktop widgets: active\n");
     print("\n");
 }
 
@@ -229,6 +250,8 @@ void kernel_main(void) {
     idt_init();
     pic_init();
     keyboard_init();
+    process_init();
+    desktop_init();
     demo_banner();
     dispatch_command("help");
     print("\n");
@@ -241,7 +264,5 @@ void kernel_main(void) {
     dispatch_command("install");
     print("\n");
 
-    while (1) {
-        __asm__ volatile ("hlt");
-    }
+    shell_run();
 }
