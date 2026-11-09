@@ -9,7 +9,7 @@ static int neon_equals(const char *a, const char *b) {
 }
 
 void install_package(const char *name, const char *signature) {
-    if (name == 0 || signature == 0) {
+    if (name == 0 || signature == 0 || name[0] == '\0') {
         print("Install rejected: invalid package metadata.\n");
         return;
     }

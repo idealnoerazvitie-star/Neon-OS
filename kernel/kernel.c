@@ -180,14 +180,13 @@ void shell_run(void) {
     while (1) {
         char ch = keyboard_read();
         if (ch == 0) {
-            __asm__ volatile ("hlt");
             continue;
         }
 
         if (ch == '\b') {
             if (index > 0) {
                 index--;
-                print("\b ");
+                print("\b \b");
             }
             continue;
         }
