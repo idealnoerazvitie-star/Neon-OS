@@ -1,38 +1,23 @@
-# Neon OS
+# Neon OS Phase 1: Bootloader + Protected Mode + VGA Kernel
 
-Neon OS is a dark, hacker-green operating system prototype for x86/x64 learning and experimentation.
+This phase establishes the first real bootable kernel skeleton for Neon OS.
 
-It is intentionally designed to feel like a Kali-style terminal with a modern app ecosystem and a security-first mindset, while remaining a practical, modular project that can be built in phases.
+What is implemented:
+- 16-bit BIOS boot sector
+- reads kernel from disk
+- enters protected mode
+- jumps into a 32-bit C kernel
+- prints a neon-green boot banner to VGA text mode
 
-Project goals:
-- bootable kernel prototype
-- dark neon UI theme
-- terminal commands inspired by Linux and Kali
-- app-store model for trusted software
-- malware checker and quarantine workflows
-- userland app support and desktop widgets
-- production-grade design notes for future hardening
+Files in this phase:
+- boot/boot.asm
+- kernel/entry.asm
+- kernel/kernel.c
+- linker.ld
+- include/neon.h
+- Makefile
 
-Status:
-- Bootloader prototype exists
-- Protected-mode bootstrap structure exists
-- Kernel console and shell prototype exists
-- App catalog and security docs exist
-- This project remains an educational bare-metal OS foundation, not a complete production-ready OS
-
-Build plan:
-1. Bootloader and protected-mode entry
-2. VGA console and shell
-3. Keyboard input
-4. Memory manager
-5. Filesystem and package metadata
-6. Userspace and process system
-7. Trusted app catalog
-8. Malware scanner and quarantine model
-9. Desktop theming and widgets
-10. Hardening and release prep
-
-Build:
+Build and run:
 
 ```bash
 make
@@ -44,7 +29,6 @@ Requirements:
 - GNU Make
 - binutils
 - QEMU (`qemu-system-i386`)
-- optionally `i686-elf-gcc` or equivalent
+- `i686-elf-gcc` or a compatible bare-metal cross-compiler
 
-Note:
-This repository is a serious prototype scaffold. A true complete OS requires paging, scheduling, drivers, ELF userland, filesystem engineering, secure package signing, and desktop infrastructure.
+This is the first milestone of Neon OS and the foundation for all later phases.
