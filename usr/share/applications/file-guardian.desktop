@@ -1,8 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=File Guardian
-Comment=Security and filesystem protection tools
-Exec=/usr/bin/neonctl status
-Icon=security-medium
-Terminal=true
-Categories=System;Security;
