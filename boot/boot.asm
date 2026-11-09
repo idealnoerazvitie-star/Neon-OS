@@ -16,7 +16,7 @@ start:
 
     mov dl, 0x80
     mov bx, KERNEL_OFFSET
-    mov dh, 20
+    mov dh, 16
     mov cl, 2
     call disk_load
 
