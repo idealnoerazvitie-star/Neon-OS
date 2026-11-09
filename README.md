@@ -7,8 +7,8 @@ This repository now includes:
 - VGA text-mode kernel with dark neon styling
 - keyboard driver foundation for user interaction
 - memory and filesystem layer prototypes
-- real process and desktop scaffolding for future userland integration
-- app market / installer model for signed-free software
+- process manager and desktop widget scaffolding
+- app market / installer model for signed software
 - malware detection and security documentation
 - architecture and hardening docs for future expansion
 

@@ -37,6 +37,14 @@ struct neon_widget {
     uint8_t visible;
 };
 
+struct neon_user_app {
+    uint32_t id;
+    char name[16];
+    char signature[32];
+    uint8_t trusted;
+    uint8_t sandboxed;
+};
+
 void clear_screen(void);
 void put_char(char ch);
 void print(const char *text);
@@ -57,6 +65,8 @@ void process_list(void);
 void desktop_init(void);
 void widget_list(void);
 void shell_run(void);
+void userland_init(void);
+void userland_list(void);
 void dispatch_command(const char *command);
 
 #endif

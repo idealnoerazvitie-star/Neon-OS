@@ -12,6 +12,7 @@ The kernel is structured into a few major subsystems:
 - IDT/PIC control
 - process manager
 - desktop widget system
+- userland registry
 - package verification and app install manager
 
 ## 3. Security model
