@@ -1,13 +1,21 @@
-# Neon OS Phase 2: Shell + Keyboard Input
+# Neon OS Phase 3: Memory Manager + Filesystem + Userspace Foundations
 
-This phase adds a simple interactive shell and keyboard support.
+This phase adds the next layers needed for a real OS:
+- memory map region tracking
+- basic filesystem registry
+- userland app list
+- process skeleton
+- app store metadata
 
 Features:
-- PS/2 keyboard polling
-- shell prompt
-- command buffer
-- commands: help, clear, sysinfo, theme, reboot
-- output on VGA text console
+- memory_init()
+- fs_init()
+- fs_register()
+- fs_list()
+- userland_init()
+- userland_list()
+- process_init()
+- process_list()
 
 Build and run:
 

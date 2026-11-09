@@ -51,16 +51,19 @@ void print(const char *text) {
 
 static void cmd_help(void) {
     print("Neon OS shell\n");
-    print("help    Show commands\n");
-    print("clear   Clear screen\n");
-    print("sysinfo Show system info\n");
-    print("theme   Show theme\n");
-    print("reboot  Restart system\n");
+    print("help        Show commands\n");
+    print("clear       Clear screen\n");
+    print("sysinfo     Show system info\n");
+    print("theme       Show theme\n");
+    print("memory      Memory status\n");
+    print("process     Process status\n");
+    print("apps        Show apps\n");
+    print("reboot      Restart system\n");
 }
 
 static void cmd_sysinfo(void) {
-    print("Neon OS v0.2\n");
-    print("Kernel: boot and shell prototype\n");
+    print("Neon OS v0.3\n");
+    print("Kernel: boot, shell, memory, userspace foundations\n");
     print("Theme: Dark Black / Neon Green\n");
 }
 
@@ -72,6 +75,18 @@ static void cmd_theme(void) {
 static void cmd_clear(void) {
     clear_screen();
     print("Neon OS shell initialized.\n");
+}
+
+static void cmd_memory(void) {
+    memory_dump();
+}
+
+static void cmd_process(void) {
+    process_list();
+}
+
+static void cmd_apps(void) {
+    userland_list();
 }
 
 static void cmd_reboot(void) {
@@ -102,6 +117,18 @@ static void dispatch_command(const char *cmd) {
     }
     if (str_equals(cmd, "clear")) {
         cmd_clear();
+        return;
+    }
+    if (str_equals(cmd, "memory")) {
+        cmd_memory();
+        return;
+    }
+    if (str_equals(cmd, "process")) {
+        cmd_process();
+        return;
+    }
+    if (str_equals(cmd, "apps")) {
+        cmd_apps();
         return;
     }
     if (str_equals(cmd, "reboot")) {
@@ -155,8 +182,12 @@ void shell_run(void) {
 
 void kernel_main(void) {
     clear_screen();
+    memory_init();
+    fs_init();
+    process_init();
+    userland_init();
     print("Neon OS\n");
-    print("Phase 2: shell ready\n");
+    print("Phase 3: memory, FS, and userspace foundations\n");
     print("Type 'help' to begin\n\n");
     shell_run();
 }
