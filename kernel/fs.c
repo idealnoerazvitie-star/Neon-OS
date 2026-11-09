@@ -8,6 +8,7 @@ void fs_init(void) {
     fs_register("theme-studio", 2048, 1);
     fs_register("terminal-boost", 4096, 1);
     fs_register("file-guardian", 8192, 1);
+    fs_register("neon-antivirus", 16384, 1);
     print("Filesystem registry initialized.\n");
 }
 
@@ -33,6 +34,8 @@ void fs_list(void) {
     for (uint8_t i = 0; i < file_count; ++i) {
         print("  ");
         print(file_table[i].name);
+        print("  size=");
+        print_hex32(file_table[i].size);
         print("\n");
     }
 }

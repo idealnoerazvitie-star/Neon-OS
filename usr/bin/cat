@@ -1,7 +1,0 @@
-#!/bin/sh
-if [ -f "$1" ]; then
-    sed -n '1,200p' "$1"
-else
-    echo "cat: $1: No such file or directory"
-    exit 1
-fi

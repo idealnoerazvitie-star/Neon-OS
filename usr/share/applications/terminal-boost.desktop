@@ -1,8 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=Terminal Boost
-Comment=Enhanced terminal environment
-Exec=/usr/bin/neon-shell help
-Icon=utilities-terminal
-Terminal=true
-Categories=System;Utility;
