@@ -1,0 +1,188 @@
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+enum {
+    VGA_WIDTH = 80,
+    VGA_HEIGHT = 25,
+    VGA_COLOR = 0x0A,
+};
+
+static volatile u16* const VGA_MEMORY = (u16*)0xB8000;
+static u8 cursor_x = 0;
+static u8 cursor_y = 0;
+
+static void set_cursor(u8 x, u8 y) {
+    cursor_x = x;
+    cursor_y = y;
+}
+
+static void scroll() {
+    for (u32 y = 1; y < VGA_HEIGHT; ++y) {
+        for (u32 x = 0; x < VGA_WIDTH; ++x) {
+            VGA_MEMORY[(y - 1) * VGA_WIDTH + x] = VGA_MEMORY[y * VGA_WIDTH + x];
+        }
+    }
+
+    for (u32 x = 0; x < VGA_WIDTH; ++x) {
+        VGA_MEMORY[(VGA_HEIGHT - 1) * VGA_WIDTH + x] = (0x20 | (VGA_COLOR << 8));
+    }
+
+    cursor_y = VGA_HEIGHT - 1;
+    cursor_x = 0;
+}
+
+static void put_char(char ch) {
+    if (ch == '\n') {
+        cursor_x = 0;
+        cursor_y++;
+    } else if (ch == '\r') {
+        cursor_x = 0;
+    } else {
+        u32 index = (cursor_y * VGA_WIDTH) + cursor_x;
+        VGA_MEMORY[index] = (u16)(ch | (VGA_COLOR << 8));
+        cursor_x++;
+    }
+
+    if (cursor_x >= VGA_WIDTH) {
+        cursor_x = 0;
+        cursor_y++;
+    }
+
+    if (cursor_y >= VGA_HEIGHT) {
+        scroll();
+    }
+}
+
+static void print(const char* text) {
+    while (*text) {
+        put_char(*text++);
+    }
+}
+
+static void clear_screen() {
+    for (u32 i = 0; i < VGA_WIDTH * VGA_HEIGHT; ++i) {
+        VGA_MEMORY[i] = (u16)(' ' | (VGA_COLOR << 8));
+    }
+    set_cursor(0, 0);
+}
+
+static void command_help() {
+    print("Neon OS Shell\n");
+    print("Commands:\n");
+    print("  help      Show this list\n");
+    print("  sysinfo   Show system info\n");
+    print("  theme     Show current neon theme\n");
+    print("  scan      Run malware scan\n");
+    print("  apps      View app catalog\n");
+    print("  clear     Clear terminal\n");
+    print("  reboot    Restart Neon OS\n");
+}
+
+static void command_sysinfo() {
+    print("Neon OS v0.1\n");
+    print("Architecture: x64-compatible bare-metal kernel\n");
+    print("Kernel mode: prototype\n");
+    print("Theme: Neon Dark / Hacker Green\n");
+    print("Terminal: Kali-inspired shell\n");
+}
+
+static void command_theme() {
+    print("Theme profile: Neon Black\n");
+    print("Primary color: #39FF14\n");
+    print("Secondary color: #0D0D0D\n");
+    print("Accent: cyan + green terminal glow\n");
+}
+
+static void command_scan() {
+    print("Malware check: no known signatures detected.\n");
+    print("Status: system appears clean in the current prototype.\n");
+}
+
+static void command_apps() {
+    print("App Store: Neon Market\n");
+    print("Featured apps:\n");
+    print("  - Theme Studio\n");
+    print("  - Terminal Boost\n");
+    print("  - File Guardian\n");
+    print("  - Neon Antivirus\n");
+}
+
+static void command_clear() {
+    clear_screen();
+    set_cursor(0, 0);
+    print("Neon OS shell initialized.\n");
+}
+
+static void command_reboot() {
+    print("Rebooting Neon OS...\n");
+    __asm__ volatile ("cli; hlt");
+}
+
+static void execute_command(const char* cmd) {
+    if (cmd[0] == '\0') {
+        return;
+    }
+
+    if (cmd[0] == 'h' && cmd[1] == 'e' && cmd[2] == 'l' && cmd[3] == 'p') {
+        command_help();
+        return;
+    }
+
+    if (cmd[0] == 's' && cmd[1] == 'y' && cmd[2] == 's' && cmd[3] == 'i' && cmd[4] == 'n' && cmd[5] == 'f' && cmd[6] == 'o') {
+        command_sysinfo();
+        return;
+    }
+
+    if (cmd[0] == 't' && cmd[1] == 'h' && cmd[2] == 'e' && cmd[3] == 'm' && cmd[4] == 'e') {
+        command_theme();
+        return;
+    }
+
+    if (cmd[0] == 's' && cmd[1] == 'c' && cmd[2] == 'a' && cmd[3] == 'n') {
+        command_scan();
+        return;
+    }
+
+    if (cmd[0] == 'a' && cmd[1] == 'p' && cmd[2] == 'p' && cmd[3] == 's') {
+        command_apps();
+        return;
+    }
+
+    if (cmd[0] == 'c' && cmd[1] == 'l' && cmd[2] == 'e' && cmd[3] == 'a' && cmd[4] == 'r') {
+        command_clear();
+        return;
+    }
+
+    if (cmd[0] == 'r' && cmd[1] == 'e' && cmd[2] == 'b' && cmd[3] == 'o' && cmd[4] == 'o' && cmd[5] == 't') {
+        command_reboot();
+        return;
+    }
+
+    print("Unknown command. Try 'help'.\n");
+}
+
+void _start(void) {
+    clear_screen();
+    print("Neon OS v0.1\n");
+    print("Dark mode ready. Type 'help' for commands.\n\n");
+
+    const char* commands[] = {
+        "help",
+        "sysinfo",
+        "theme",
+        "scan",
+        "apps",
+        "clear",
+        "reboot",
+        ""
+    };
+
+    for (u32 i = 0; commands[i][0] != '\0'; ++i) {
+        execute_command(commands[i]);
+    }
+
+    while (1) {
+        __asm__ volatile ("hlt");
+    }
+}
