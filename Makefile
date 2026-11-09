@@ -29,8 +29,14 @@ $(BUILD_DIR)/entry.o: kernel/entry.asm | $(BUILD_DIR)
 $(BUILD_DIR)/kernel.o: kernel/kernel.c | $(BUILD_DIR)
 	$(CC) $(CFLAGS) -c -o $@ $<
 
-$(KERNEL_ELF): $(BUILD_DIR)/entry.o $(BUILD_DIR)/kernel.o linker.ld
-	$(LD) $(LDFLAGS) -T linker.ld -o $@ $(BUILD_DIR)/entry.o $(BUILD_DIR)/kernel.o
+$(BUILD_DIR)/keyboard.o: kernel/keyboard.c | $(BUILD_DIR)
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+$(BUILD_DIR)/shell.o: kernel/shell.c | $(BUILD_DIR)
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+$(KERNEL_ELF): $(BUILD_DIR)/entry.o $(BUILD_DIR)/kernel.o $(BUILD_DIR)/keyboard.o $(BUILD_DIR)/shell.o linker.ld
+	$(LD) $(LDFLAGS) -T linker.ld -o $@ $(BUILD_DIR)/entry.o $(BUILD_DIR)/kernel.o $(BUILD_DIR)/keyboard.o $(BUILD_DIR)/shell.o
 	$(OBJCOPY) -O binary $@ $(KERNEL_BIN)
 
 $(IMAGE): $(BOOT_BIN) $(KERNEL_ELF)

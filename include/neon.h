@@ -12,5 +12,8 @@
 void clear_screen(void);
 void put_char(char ch);
 void print(const char *text);
+char keyboard_read(void);
+void shell_run(void);
+void shell_print_prompt(void);
 
 #endif
