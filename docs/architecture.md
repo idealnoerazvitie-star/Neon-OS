@@ -1,28 +1,28 @@
-# Neon OS Architecture
+# Neon OS Architecture Overview
 
-## 1. Boot sequence
-The bootloader is responsible for loading the kernel and switching the CPU into protected mode. This is the entry point for the OS and serves as the main gatekeeper before the kernel takes over.
+## Boot sequence
+1. BIOS loads the boot sector
+2. Bootloader reads the kernel image
+3. CPU switches to protected mode
+4. Kernel starts in C code
+5. Console initializes and commands become available
 
-## 2. Kernel services
-The kernel is structured into a few major subsystems:
-- VGA text-mode console
-- memory layer
-- filesystem registry
-- keyboard handling
-- IDT/PIC control
-- process manager
-- desktop widget system
-- userland registry
-- package verification and app install manager
+## Core subsystems
+- VGA console
+- keyboard handler
+- memory tracking
+- filesystem / package registry
+- process table
+- app installation logic
+- desktop widget layer
 
-## 3. Security model
-Every app in Neon Market is treated as a package. Packages must pass verification and are then run in a restricted sandbox profile. The design follows a "trusted source + signature check + quarantine" flow.
+## Design philosophy
+Neon OS follows a layered architecture:
+- low-level boot and CPU setup
+- kernel services
+- userspace abstractions
+- package validation
+- desktop and customization
 
-## 4. Future expansion
-The next milestones are:
-- userland ELF loading
-- real filesystem driver
-- task scheduler
-- desktop UI and theme manager
-- package repository and signed manifest system
-- malware intelligence and behavior scanning
+## Final ecosystem
+The goal is a Linux-like development environment with a dark hacker aesthetic, a trusted app store, and security features that help users understand how real operating systems protect users and data.

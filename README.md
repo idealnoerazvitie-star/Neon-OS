@@ -1,26 +1,38 @@
 # Neon OS
 
-Neon OS is a dark, hacker-green operating system prototype built as a practical learning project for x86 architecture and bare-metal kernel development. It is designed with a Kali-inspired terminal feel, a curated application catalog, and security-first software concepts.
+Neon OS is a dark, hacker-green operating system prototype for x86/x64 learning and experimentation.
 
-This repository now includes:
-- BIOS bootloader and protected-mode startup sequence
-- VGA text-mode kernel with dark neon styling
-- keyboard driver foundation for user interaction
-- memory and filesystem layer prototypes
-- process manager and desktop widget scaffolding
-- app market / installer model for signed software
-- malware detection and security documentation
-- architecture and hardening docs for future expansion
+It is intentionally designed to feel like a Kali-style terminal with a modern app ecosystem and a security-first mindset, while remaining a practical, modular project that can be built in phases.
 
-Project vision:
-- x86 protected-mode kernel skeleton
-- command-line shell with Linux-inspired commands
-- app store with signature verification and sandboxing
-- malware scanning and quarantine heuristics
-- desktop customization engine and widget support
-- future real userland and package manager integration
+Project goals:
+- bootable kernel prototype
+- dark neon UI theme
+- terminal commands inspired by Linux and Kali
+- app-store model for trusted software
+- malware checker and quarantine workflows
+- userland app support and desktop widgets
+- production-grade design notes for future hardening
 
-Build and run:
+Status:
+- Bootloader prototype exists
+- Protected-mode bootstrap structure exists
+- Kernel console and shell prototype exists
+- App catalog and security docs exist
+- This project remains an educational bare-metal OS foundation, not a complete production-ready OS
+
+Build plan:
+1. Bootloader and protected-mode entry
+2. VGA console and shell
+3. Keyboard input
+4. Memory manager
+5. Filesystem and package metadata
+6. Userspace and process system
+7. Trusted app catalog
+8. Malware scanner and quarantine model
+9. Desktop theming and widgets
+10. Hardening and release prep
+
+Build:
 
 ```bash
 make
@@ -32,9 +44,7 @@ Requirements:
 - GNU Make
 - binutils
 - QEMU (`qemu-system-i386`)
-- optionally `i686-elf-gcc` or a compatible cross-compiler
+- optionally `i686-elf-gcc` or equivalent
 
-Notes:
-- This is still a prototype OS, not a production-grade Linux distribution.
-- A complete system would require paging, preemptive scheduling, real drivers, ELF userspace, secure package signing, and a robust desktop manager.
-- The goal of this repository is to create a serious foundation for those features in a manageable and testable form.
+Note:
+This repository is a serious prototype scaffold. A true complete OS requires paging, scheduling, drivers, ELF userland, filesystem engineering, secure package signing, and desktop infrastructure.

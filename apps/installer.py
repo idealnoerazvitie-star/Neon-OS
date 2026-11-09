@@ -19,12 +19,12 @@ def install_package(pkg_path: str) -> None:
         return
 
     print(f"[NeonInstall] Installing trusted package: {data.get('name', 'unknown')}")
-    print("[NeonInstall] Package sandbox policy: restricted user")
+    print("[NeonInstall] Package sandbox policy: restricted-user")
     print("[NeonInstall] Installation complete")
 
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print("Usage: python installer.py <package.json>")
+        print("Usage: python3 installer.py <package.json>")
         sys.exit(1)
     install_package(sys.argv[1])

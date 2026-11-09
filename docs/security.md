@@ -1,27 +1,25 @@
 # Neon OS Security Model
 
-## Goal
-Neon OS is designed to be safe and auditable. Apps are not silently trusted; they are validated against signature rules and placed into sandboxed execution contexts.
+## Principles
+- no implicit trust
+- signature verification required
+- restricted sandbox execution
+- malware scans before install
+- explicit audit logs
 
-## Protection layers
-1. Signature validation
-2. Trusted source allowlist
-3. Sandboxed execution
-4. Heuristic malware scanning
-5. Audit logs and application policy
+## Layers
+1. Boot validation
+2. Package signature checks
+3. Sandbox policy enforcement
+4. Malware heuristics
+5. Quarantine on suspicious behavior
 
-## Malware strategy
-A malicious app may attempt to:
-- write outside restricted directories
-- execute remote payloads
-- modify protected files
-- access sensitive configuration state
+## Threats considered
+- hidden payload-like installers
+- reverse shell patterns
+- unauthorized writes outside user directories
+- modification of protected configuration
+- execution of untrusted binaries
 
-To mitigate this, the OS includes:
-- file scan heuristics
-- import blocklists
-- restricted runtime permissions
-- package quarantine on invalid signature
-
-## Security note
-This repo is an educational prototype. A real secure OS must include verified boot, memory protections, privilege rings, and hardened drivers before being treated as production-safe.
+## Design note
+This project is a prototype security model. Real secure operating systems also require verified boot, privilege separation, formal access control, and hardened device drivers.
