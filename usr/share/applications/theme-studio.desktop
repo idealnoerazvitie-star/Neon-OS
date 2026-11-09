@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Theme Studio
+Comment=Theme and visual customization tools
+Exec=/usr/bin/neonctl apps
+Icon=preferences-desktop-theme
+Terminal=true
+Categories=Utility;

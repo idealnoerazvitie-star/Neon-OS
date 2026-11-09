@@ -1,0 +1,21 @@
+#!/bin/sh
+if [ "$#" -eq 0 ]; then
+    echo "Neon OS shell\n"
+    echo "Available commands: help, neonctl, ls, cat, ps\n"
+    exit 0
+fi
+
+case "$1" in
+    help)
+        echo "Neon OS shell\n"
+        echo "help      show shell help\n"
+        echo "neonctl   system controller\n"
+        echo "ls        list files\n"
+        echo "cat       print file contents\n"
+        echo "ps        show process list\n"
+        ;;
+    *)
+        echo "Command not found: $1";
+        exit 127;
+        ;;
+ esac

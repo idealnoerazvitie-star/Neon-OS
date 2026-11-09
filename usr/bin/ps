@@ -1,0 +1,5 @@
+#!/bin/sh
+echo "PID  TTY  STAT  COMMAND"
+echo "1    ?    S     neon-kernel"
+echo "2    ?    S     neon-shell"
+echo "3    ?    S     theme-studio"

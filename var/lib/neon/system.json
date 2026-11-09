@@ -1,0 +1,9 @@
+{
+  "name": "Neon OS",
+  "version": "0.4",
+  "kernel": "bare-metal i686 prototype",
+  "shell": "/usr/bin/neon-shell",
+  "state": "distro-foundation",
+  "default_user": "neon",
+  "default_home": "/home/neon"
+}

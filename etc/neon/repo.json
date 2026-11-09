@@ -1,0 +1,27 @@
+{
+  "system": {
+    "name": "Neon OS",
+    "version": "0.4",
+    "architecture": "i686",
+    "init": "systemd-like",
+    "shell": "/usr/bin/neon-shell"
+  },
+  "repositories": [
+    {
+      "name": "core",
+      "url": "https://repo.neon-os.local/core",
+      "enabled": true
+    },
+    {
+      "name": "apps",
+      "url": "https://repo.neon-os.local/apps",
+      "enabled": true
+    }
+  ],
+  "apps": [
+    "theme-studio",
+    "file-guardian",
+    "terminal-boost",
+    "neonctl"
+  ]
+}
