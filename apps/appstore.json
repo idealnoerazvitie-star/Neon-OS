@@ -1,0 +1,73 @@
+{
+  "store": {
+    "name": "Neon Market",
+    "version": "1.4.0",
+    "owner": "Neon OS",
+    "currency": "free",
+    "securityModel": {
+      "signatureRequired": true,
+      "sandboxEnabled": true,
+      "trustedSourcesOnly": true,
+      "scanBeforeInstall": true
+    },
+    "features": [
+      "signed packages",
+      "heuristic malware detection",
+      "sandboxed app execution",
+      "desktop customization tools",
+      "free software distribution"
+    ]
+  },
+  "catalog": [
+    {
+      "id": "theme-studio",
+      "name": "Theme Studio",
+      "category": "Customization",
+      "price": 0,
+      "license": "Free",
+      "signature": "sha256:theme-studio-v1-signed",
+      "description": "Customize wallpapers, accent colors, and startup animations.",
+      "status": "trusted"
+    },
+    {
+      "id": "terminal-boost",
+      "name": "Terminal Boost",
+      "category": "Utilities",
+      "price": 0,
+      "license": "Free",
+      "signature": "sha256:terminal-boost-v1-signed",
+      "description": "Adds advanced shell commands and keyboard shortcuts.",
+      "status": "trusted"
+    },
+    {
+      "id": "file-guardian",
+      "name": "File Guardian",
+      "category": "Security",
+      "price": 0,
+      "license": "Free",
+      "signature": "sha256:file-guardian-v1-signed",
+      "description": "Protects files from tampering, alerts on suspicious writes, and monitors integrity.",
+      "status": "trusted"
+    },
+    {
+      "id": "neon-antivirus",
+      "name": "Neon Antivirus",
+      "category": "Security",
+      "price": 0,
+      "license": "Free",
+      "signature": "sha256:neon-antivirus-v1-signed",
+      "description": "Scans files, applies heuristics, and reports suspicious attempts.",
+      "status": "trusted"
+    },
+    {
+      "id": "desktop-widgets",
+      "name": "Desktop Widgets",
+      "category": "Customization",
+      "price": 0,
+      "license": "Free",
+      "signature": "sha256:desktop-widgets-v1-signed",
+      "description": "Adds widgets for clock, system health, and theme switching.",
+      "status": "trusted"
+    }
+  ]
+}

@@ -1,37 +1,37 @@
 # Neon OS roadmap
 
 ## Phase 1: Bootable prototype
-- Minimal BIOS bootloader
-- Text-mode VGA kernel
-- Neon green terminal with dark UI
-- Command interpreter mock shell
+- BIOS bootloader loads kernel
+- VGA text-mode UI
+- emergency shell and themed output
+- app store metadata and antivirus scaffold
 
-## Phase 2: Protected mode and memory management
-- Enter 32-bit protected mode
+## Phase 2: Protected mode and hardware
 - GDT/IDT setup
-- Basic memory allocator
-- Keyboard driver
+- keyboard driver with scan codes
+- memory layout and stack stability
+- user input and shell interaction
 
 ## Phase 3: Userland and package system
-- ELF user process loader
-- Signed app package verification
-- App store manifest validation
-- Sandboxed execution model
+- process loader
+- ELF binary support
+- signed app validation
+- sandbox policy and app profiles
 
-## Phase 4: Security and malware defense
-- File-integrity checks
-- Signature database
-- Quarantine engine
-- Heuristic behavior scoring
+## Phase 4: Security hardening
+- malware signature rules
+- file scanning and quarantining
+- behavior heuristics
+- audit log and tamper protection
 
-## Phase 5: Desktop + customization system
-- Window manager
-- Desktop widgets
-- Theme manager
-- User profile customization
+## Phase 5: Desktop experience
+- window manager
+- taskbar and widgets
+- desktop customization app
+- profile presets and themes
 
-## Phase 6: Deployment and hardening
-- Real x64 hardware support
-- Networking and drivers
-- Recovery shell
-- Stable release
+## Phase 6: Release quality
+- hardware validation
+- device driver coverage
+- safe package repository
+- audit-friendly security model

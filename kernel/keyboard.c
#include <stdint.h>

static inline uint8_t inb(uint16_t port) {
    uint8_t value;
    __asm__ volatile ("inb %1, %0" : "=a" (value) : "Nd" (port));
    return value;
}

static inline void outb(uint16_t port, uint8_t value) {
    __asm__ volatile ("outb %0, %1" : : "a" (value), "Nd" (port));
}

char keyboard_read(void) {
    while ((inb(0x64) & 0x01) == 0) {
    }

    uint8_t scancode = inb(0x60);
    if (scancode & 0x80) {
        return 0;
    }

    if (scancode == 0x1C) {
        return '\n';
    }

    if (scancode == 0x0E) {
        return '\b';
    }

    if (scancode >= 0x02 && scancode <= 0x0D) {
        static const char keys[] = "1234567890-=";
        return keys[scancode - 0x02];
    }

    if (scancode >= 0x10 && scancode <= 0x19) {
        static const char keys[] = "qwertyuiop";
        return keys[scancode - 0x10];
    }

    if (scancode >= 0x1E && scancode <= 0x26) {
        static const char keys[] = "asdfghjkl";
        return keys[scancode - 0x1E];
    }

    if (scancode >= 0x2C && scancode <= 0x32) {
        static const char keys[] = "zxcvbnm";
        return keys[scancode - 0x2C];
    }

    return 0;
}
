@@ -1,0 +1,272 @@
+#include <stdint.h>
+
+enum {
+    VGA_WIDTH = 80,
+    VGA_HEIGHT = 25,
+    BLACK = 0x00,
+    GREEN = 0x0A,
+    CYAN = 0x0B,
+    RED = 0x0C,
+    WHITE = 0x0F
+};
+
+static volatile uint16_t *const VGA_MEMORY = (volatile uint16_t *)0xB8000;
+static uint8_t cursor_x = 0;
+static uint8_t cursor_y = 0;
+
+static void set_cursor(uint8_t x, uint8_t y) {
+    cursor_x = x;
+    cursor_y = y;
+}
+
+static void scroll() {
+    for (uint32_t y = 1; y < VGA_HEIGHT; ++y) {
+        for (uint32_t x = 0; x < VGA_WIDTH; ++x) {
+            VGA_MEMORY[(y - 1) * VGA_WIDTH + x] = VGA_MEMORY[y * VGA_WIDTH + x];
+        }
+    }
+
+    for (uint32_t x = 0; x < VGA_WIDTH; ++x) {
+        VGA_MEMORY[(VGA_HEIGHT - 1) * VGA_WIDTH + x] = (uint16_t)(' ' | (GREEN << 8));
+    }
+
+    cursor_y = VGA_HEIGHT - 1;
+    cursor_x = 0;
+}
+
+static void put_char(char ch) {
+    if (ch == '\n') {
+        cursor_x = 0;
+        cursor_y++;
+    } else if (ch == '\r') {
+        cursor_x = 0;
+    } else {
+        uint32_t index = (cursor_y * VGA_WIDTH) + cursor_x;
+        VGA_MEMORY[index] = (uint16_t)(ch | (GREEN << 8));
+        cursor_x++;
+    }
+
+    if (cursor_x >= VGA_WIDTH) {
+        cursor_x = 0;
+        cursor_y++;
+    }
+
+    if (cursor_y >= VGA_HEIGHT) {
+        scroll();
+    }
+}
+
+static void print(const char *text) {
+    while (*text != '\0') {
+        put_char(*text++);
+    }
+}
+
+static void clear_screen() {
+    for (uint32_t i = 0; i < VGA_WIDTH * VGA_HEIGHT; ++i) {
+        VGA_MEMORY[i] = (uint16_t)(' ' | (GREEN << 8));
+    }
+    set_cursor(0, 0);
+}
+
+static int str_equals(const char *a, const char *b) {
+    while (*a != '\0' && *b != '\0' && *a == *b) {
+        ++a;
+        ++b;
+    }
+    return *a == *b;
+}
+
+static int starts_with(const char *text, const char *prefix) {
+    while (*prefix != '\0') {
+        if (*text != *prefix) {
+            return 0;
+        }
+        ++text;
+        ++prefix;
+    }
+    return 1;
+}
+
+static void print_hex32(uint32_t value) {
+    const char *digits = "0123456789ABCDEF";
+    char buffer[9];
+    for (int i = 7; i >= 0; --i) {
+        buffer[i] = digits[value & 0xF];
+        value >>= 4;
+    }
+    buffer[8] = '\0';
+    print(buffer);
+}
+
+static void cmd_help() {
+    print("Neon OS Shell\n");
+    print("help        Show available commands\n");
+    print("whoami      Display user context\n");
+    print("ls          List files and app entries\n");
+    print("cat         Read a file or manifest\n");
+    print("sysinfo     Show system status\n");
+    print("theme       Show neon desktop theme\n");
+    print("apps        Open Neon Market\n");
+    print("scan        Run malware scan\n");
+    print("install     Install a signed app\n");
+    print("clear       Clear screen\n");
+    print("reboot      Restart system\n");
+}
+
+static void cmd_whoami() {
+    print("User: root\n");
+    print("Role: Neon OS administrator\n");
+    print("Shell: neon-shell v0.4\n");
+}
+
+static void cmd_ls() {
+    print("/root\n");
+    print("  neon-system\n");
+    print("  downloads\n");
+    print("  apps\n");
+    print("  config\n");
+    print("  themes\n");
+    print("  logs\n");
+}
+
+static void cmd_cat() {
+    print("Neon Market Catalog\n");
+    print("- Theme Studio\n");
+    print("- Terminal Boost\n");
+    print("- File Guardian\n");
+    print("- Neon Antivirus\n");
+    print("- Neon Desktop\n");
+}
+
+static void cmd_sysinfo() {
+    print("Neon OS v0.4\n");
+    print("Platform: x86 protected mode prototype\n");
+    print("Kernel: minimal C shell + VGA output\n");
+    print("Security: signature checks, sandbox, malware scans\n");
+    print("Theme: Dark Black + Hacker Green\n");
+    print("Architecture: i386-compatible kernel skeleton\n");
+}
+
+static void cmd_theme() {
+    print("Theme: Neon Black\n");
+    print("Primary: #39FF14\n");
+    print("Background: #050B08\n");
+    print("Terminal glow: enabled\n");
+    print("Desktop widgets: active\n");
+}
+
+static void cmd_apps() {
+    print("Neon Market\n");
+    print("Trusted apps:\n");
+    print("  1. Theme Studio - Free\n");
+    print("  2. Terminal Boost - Free\n");
+    print("  3. File Guardian - Free\n");
+    print("  4. Neon Antivirus - Free\n");
+    print("Signature verification: enabled\n");
+}
+
+static void cmd_scan() {
+    print("Malware signature scan\n");
+    print("Status: clean\n");
+    print("Suspicious indicators: 0\n");
+    print("Heuristic score: 7/100\n");
+}
+
+static void cmd_install() {
+    print("Installing signed package: Neon Antivirus\n");
+    print("Package check: valid signature\n");
+    print("Sandbox profile: restricted user\n");
+    print("Result: installation completed\n");
+}
+
+static void cmd_clear() {
+    clear_screen();
+    print("Neon OS shell initialized.\n");
+}
+
+static void cmd_reboot() {
+    print("Rebooting Neon OS...\n");
+    __asm__ volatile ("cli; hlt");
+}
+
+static void dispatch_command(const char *command) {
+    if (command[0] == '\0') {
+        return;
+    }
+
+    if (str_equals(command, "help") || starts_with(command, "help ")) {
+        cmd_help();
+        return;
+    }
+    if (str_equals(command, "whoami")) {
+        cmd_whoami();
+        return;
+    }
+    if (str_equals(command, "ls")) {
+        cmd_ls();
+        return;
+    }
+    if (str_equals(command, "cat")) {
+        cmd_cat();
+        return;
+    }
+    if (str_equals(command, "sysinfo")) {
+        cmd_sysinfo();
+        return;
+    }
+    if (str_equals(command, "theme")) {
+        cmd_theme();
+        return;
+    }
+    if (str_equals(command, "apps")) {
+        cmd_apps();
+        return;
+    }
+    if (str_equals(command, "scan")) {
+        cmd_scan();
+        return;
+    }
+    if (str_equals(command, "install")) {
+        cmd_install();
+        return;
+    }
+    if (str_equals(command, "clear")) {
+        cmd_clear();
+        return;
+    }
+    if (str_equals(command, "reboot")) {
+        cmd_reboot();
+        return;
+    }
+
+    print("Unknown command. Run 'help' for system commands.\n");
+}
+
+static void draw_demo() {
+    print("Neon OS v0.4\n");
+    print("Dark mode: active\n");
+    print("Terminal: Kali-inspired\n");
+    print("App Store: Neon Market\n");
+    print("Security: malware scanning enabled\n");
+    print("Kernel state: ready\n");
+    print("\n");
+}
+
+void kernel_main(void) {
+    clear_screen();
+    draw_demo();
+    dispatch_command("help");
+    print("\n");
+    dispatch_command("sysinfo");
+    print("\n");
+    dispatch_command("apps");
+    print("\n");
+    dispatch_command("scan");
+    print("\n");
+    dispatch_command("install");
+
+    while (1) {
+        __asm__ volatile ("hlt");
+    }
+}

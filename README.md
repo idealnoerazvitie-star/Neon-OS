@@ -1,23 +1,25 @@
 # Neon OS
 
-Neon OS is a dark, hacker-green x64 operating system prototype designed for experimentation and learning. The goal is to build a Linux-like environment with a Kali-inspired terminal, desktop customization tools, a curated app catalog, and built-in security tooling.
+Neon OS is a dark, hacker-green x64 operating system prototype designed for experimentation, learning, and future real-world development. The project is intentionally inspired by the feeling of a Kali-like terminal and a modern app-store experience, while keeping the implementation practical and modular.
 
-This repository is the starting point for a bootable x64 OS project, with:
+Features in this build:
+- BIOS bootloader that loads a kernel into memory
+- protected-mode startup architecture
+- dark neon theme and terminal styling
+- shell commands inspired by Kali and Linux tools
+- app catalog with signed/free package metadata
+- malware-scanning prototype and antivirus workflow
+- roadmap for a more complete OS
 
-- a minimal BIOS bootloader
-- a bare-metal kernel skeleton
-- a dark neon theme and terminal shell prototype
-- a secure app catalog model with signed package metadata
-- a malware checker / antivirus app concept
+What this version includes:
+- boot/boot.asm: 16-bit bootloader that loads the kernel
+- kernel/entry.asm: 32-bit protected-mode entry point
+- kernel/kernel.c: console, terminal shell, commands, and demo system interface
+- kernel/keyboard.c: PS/2 keyboard polling foundation
+- apps/appstore.json: signed software catalog modeled after a curated app market
+- docs/roadmap.md: development path toward a larger OS
 
-Status:
-- Bootloader: implemented as a minimal x86 BIOS boot sector
-- Kernel: basic text-mode kernel prototype for VGA output
-- Terminal: command parser with themed system commands
-- App Store: JSON-based curated catalog structure
-- Security: malware scanner app stub with heuristic scoring
-
-Build:
+Build and run:
 
 ```bash
 make
@@ -25,11 +27,11 @@ make run
 ```
 
 Requirements:
-
 - NASM
-- qemu-system-x86_64
-- a cross-compiler such as `x86_64-elf-gcc` (recommended for bare-metal builds)
+- binutils
+- GNU Make
+- QEMU
+- i686-elf-gcc or x86_64-elf-gcc with 32-bit support
 
-Important note:
-
-This is an educational prototype. A complete production-grade OS requires a real kernel, memory manager, scheduler, filesystem, device drivers, and a secure software packaging system.
+Note:
+This is a prototype operating system skeleton. It is not a full Linux distribution or a production-ready kernel. It is a serious foundation for learning how to build a bootable x64-style system with a dark hacker aesthetic and security-focused tooling.

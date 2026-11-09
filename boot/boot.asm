@@ -2,29 +2,30 @@
 [ORG 0x7C00]
 
 KERNEL_OFFSET equ 0x1000
-BOOT_DRIVE db 0
 
 start:
+    cli
     xor ax, ax
     mov ds, ax
     mov es, ax
     mov ss, ax
     mov sp, 0x7C00
 
-    mov [BOOT_DRIVE], dl
-
-    mov si, neon_msg
+    mov si, boot_msg
     call print_string
 
+    mov dl, 0x80
     mov bx, KERNEL_OFFSET
-    mov dh, 16
-    mov dl, [BOOT_DRIVE]
+    mov dh, 20
+    mov cl, 2
     call disk_load
 
-    mov si, ready_msg
-    call print_string
+    lgdt [gdt_descriptor]
+    mov eax, cr0
+    or eax, 1
+    mov cr0, eax
 
-    jmp KERNEL_OFFSET
+    jmp CODE_SEG:init_pm
 
 print_string:
     lodsb
@@ -47,14 +48,36 @@ disk_load:
     ret
 
 disk_error:
-    mov si, disk_error_msg
+    mov si, disk_err
     call print_string
     cli
     hlt
 
-neon_msg db "Neon OS booting...", 0x0D, 0x0A, 0
-ready_msg db "Kernel loaded and running.", 0x0D, 0x0A, 0
-disk_error_msg db "Disk read error.", 0x0D, 0x0A, 0
+[BITS 32]
+init_pm:
+    mov ax, DATA_SEG
+    mov ds, ax
+    mov es, ax
+    mov fs, ax
+    mov gs, ax
+    mov ss, ax
+    mov esp, 0x90000
+    jmp KERNEL_OFFSET
+
+GDT:
+    dq 0x0000000000000000
+    dq 0x00CF9A000000FFFF
+    dq 0x00CF92000000FFFF
+
+gdt_descriptor:
+    dw 23
+    dd GDT
+
+CODE_SEG equ 0x08
+DATA_SEG equ 0x10
+
+boot_msg db "Neon OS booting...", 13, 10, 0
+disk_err db "Disk read error.", 13, 10, 0
 
 TIMES 510 - ($ - $$) db 0
 DW 0xAA55
