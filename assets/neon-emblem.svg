@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Neon OS circular emblem</title>
+  <desc id="desc">A luminous neon-green circular badge on a near-black background, featuring a geometric N mark.</desc>
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="42%" r="68%">
+      <stop offset="0" stop-color="#10251a"/>
+      <stop offset="1" stop-color="#030705"/>
+    </radialGradient>
+    <linearGradient id="ring" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#b5ff9b"/>
+      <stop offset=".48" stop-color="#39ff14"/>
+      <stop offset="1" stop-color="#00c853"/>
+    </linearGradient>
+    <filter id="glow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="9" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softGlow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="24"/>
+    </filter>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <circle cx="256" cy="244" r="178" fill="#39ff14" opacity=".12" filter="url(#softGlow)"/>
+  <circle cx="256" cy="244" r="177" fill="none" stroke="#39ff14" stroke-width="2" opacity=".2"/>
+  <circle cx="256" cy="244" r="158" fill="none" stroke="url(#ring)" stroke-width="8" filter="url(#glow)"/>
+  <circle cx="256" cy="244" r="139" fill="none" stroke="#7dff55" stroke-width="1.5" opacity=".42"/>
+  <path d="M183 326V162h36l74 105V162h36v164h-35l-75-106v106z" fill="url(#ring)" filter="url(#glow)"/>
+  <path d="M256 86v-15M256 417v-15M98 244H83M429 244h-15" stroke="#8dff72" stroke-width="4" stroke-linecap="round" opacity=".8"/>
+  <text x="256" y="466" fill="#8dff72" font-family="monospace, sans-serif" font-size="19" font-weight="700" letter-spacing="7" text-anchor="middle">NEON OS</text>
+</svg>
