@@ -47,8 +47,14 @@ $(BUILD_DIR)/process.o: kernel/process.c | $(BUILD_DIR)
 $(BUILD_DIR)/userland.o: kernel/userland.c | $(BUILD_DIR)
 	$(CC) $(CFLAGS) -c -o $@ $<
 
-$(KERNEL_ELF): $(BUILD_DIR)/entry.o $(BUILD_DIR)/kernel.o $(BUILD_DIR)/keyboard.o $(BUILD_DIR)/shell.o $(BUILD_DIR)/memory.o $(BUILD_DIR)/fs.o $(BUILD_DIR)/process.o $(BUILD_DIR)/userland.o linker.ld
-	$(LD) $(LDFLAGS) -T linker.ld -o $@ $(BUILD_DIR)/entry.o $(BUILD_DIR)/kernel.o $(BUILD_DIR)/keyboard.o $(BUILD_DIR)/shell.o $(BUILD_DIR)/memory.o $(BUILD_DIR)/fs.o $(BUILD_DIR)/process.o $(BUILD_DIR)/userland.o
+$(BUILD_DIR)/security.o: kernel/security.c | $(BUILD_DIR)
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+$(BUILD_DIR)/desktop.o: kernel/desktop.c | $(BUILD_DIR)
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+$(KERNEL_ELF): $(BUILD_DIR)/entry.o $(BUILD_DIR)/kernel.o $(BUILD_DIR)/keyboard.o $(BUILD_DIR)/shell.o $(BUILD_DIR)/memory.o $(BUILD_DIR)/fs.o $(BUILD_DIR)/process.o $(BUILD_DIR)/userland.o $(BUILD_DIR)/security.o $(BUILD_DIR)/desktop.o linker.ld
+	$(LD) $(LDFLAGS) -T linker.ld -o $@ $(BUILD_DIR)/entry.o $(BUILD_DIR)/kernel.o $(BUILD_DIR)/keyboard.o $(BUILD_DIR)/shell.o $(BUILD_DIR)/memory.o $(BUILD_DIR)/fs.o $(BUILD_DIR)/process.o $(BUILD_DIR)/userland.o $(BUILD_DIR)/security.o $(BUILD_DIR)/desktop.o
 	$(OBJCOPY) -O binary $@ $(KERNEL_BIN)
 
 $(IMAGE): $(BOOT_BIN) $(KERNEL_ELF)

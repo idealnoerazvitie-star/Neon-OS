@@ -58,12 +58,15 @@ static void cmd_help(void) {
     print("memory      Memory status\n");
     print("process     Process status\n");
     print("apps        Show apps\n");
+    print("scan        Run malware scan\n");
+    print("install     Install a signed package\n");
+    print("desktop     Show desktop widgets\n");
     print("reboot      Restart system\n");
 }
 
 static void cmd_sysinfo(void) {
-    print("Neon OS v0.3\n");
-    print("Kernel: boot, shell, memory, userspace foundations\n");
+    print("Neon OS v0.4\n");
+    print("Kernel: boot, shell, memory, userspace, security layers\n");
     print("Theme: Dark Black / Neon Green\n");
 }
 
@@ -87,6 +90,19 @@ static void cmd_process(void) {
 
 static void cmd_apps(void) {
     userland_list();
+}
+
+static void cmd_scan(void) {
+    malware_scan();
+}
+
+static void cmd_install(void) {
+    install_package("Neon Antivirus", "sha256:neon-antivirus-v1-signed");
+}
+
+static void cmd_desktop(void) {
+    desktop_init();
+    widget_list();
 }
 
 static void cmd_reboot(void) {
@@ -129,6 +145,18 @@ static void dispatch_command(const char *cmd) {
     }
     if (str_equals(cmd, "apps")) {
         cmd_apps();
+        return;
+    }
+    if (str_equals(cmd, "scan")) {
+        cmd_scan();
+        return;
+    }
+    if (str_equals(cmd, "install")) {
+        cmd_install();
+        return;
+    }
+    if (str_equals(cmd, "desktop")) {
+        cmd_desktop();
         return;
     }
     if (str_equals(cmd, "reboot")) {
@@ -187,7 +215,7 @@ void kernel_main(void) {
     process_init();
     userland_init();
     print("Neon OS\n");
-    print("Phase 3: memory, FS, and userspace foundations\n");
+    print("Phase 4: security, app install, and desktop layer\n");
     print("Type 'help' to begin\n\n");
     shell_run();
 }

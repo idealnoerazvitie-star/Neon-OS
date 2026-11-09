@@ -52,5 +52,9 @@ void process_init(void);
 void process_list(void);
 void userland_init(void);
 void userland_list(void);
+void install_package(const char *name, const char *signature);
+void malware_scan(void);
+void desktop_init(void);
+void widget_list(void);
 
 #endif
