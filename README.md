@@ -1,23 +1,23 @@
 # Neon OS
 
-Neon OS is a dark, hacker-green x64 operating system prototype designed for experimentation, learning, and future real-world development. The project is intentionally inspired by the feeling of a Kali-like terminal and a modern app-store experience, while keeping the implementation practical and modular.
+Neon OS is a dark, hacker-green operating system prototype built as a practical learning project for x86 architecture and bare-metal kernel development. It is designed with a Kali-inspired terminal feel, a curated application catalog, and security-first software concepts.
 
-Features in this build:
-- BIOS bootloader that loads a kernel into memory
-- protected-mode startup architecture
-- dark neon theme and terminal styling
-- shell commands inspired by Kali and Linux tools
-- app catalog with signed/free package metadata
-- malware-scanning prototype and antivirus workflow
-- roadmap for a more complete OS
+This repository now includes:
+- BIOS bootloader and protected-mode startup sequence
+- VGA text-mode kernel with dark neon styling
+- keyboard driver foundation for user interaction
+- filesystem and memory layer prototypes
+- app market / installer model for signed-free software
+- malware detection and security documentation
+- architecture and hardening docs for future expansion
 
-What this version includes:
-- boot/boot.asm: 16-bit bootloader that loads the kernel
-- kernel/entry.asm: 32-bit protected-mode entry point
-- kernel/kernel.c: console, terminal shell, commands, and demo system interface
-- kernel/keyboard.c: PS/2 keyboard polling foundation
-- apps/appstore.json: signed software catalog modeled after a curated app market
-- docs/roadmap.md: development path toward a larger OS
+Project vision:
+- x86 protected-mode kernel skeleton
+- command-line shell with Linux-inspired commands
+- app store with signature verification and sandboxing
+- malware scanning and quarantine heuristics
+- desktop customization engine and widget support
+- future real userland and package manager integration
 
 Build and run:
 
@@ -28,10 +28,12 @@ make run
 
 Requirements:
 - NASM
-- binutils
 - GNU Make
-- QEMU
-- i686-elf-gcc or x86_64-elf-gcc with 32-bit support
+- binutils
+- QEMU (`qemu-system-i386`)
+- optionally `i686-elf-gcc` or a compatible cross-compiler
 
-Note:
-This is a prototype operating system skeleton. It is not a full Linux distribution or a production-ready kernel. It is a serious foundation for learning how to build a bootable x64-style system with a dark hacker aesthetic and security-focused tooling.
+Notes:
+- This is still a prototype OS, not a production-grade Linux distribution.
+- A complete system would require paging, preemptive scheduling, real drivers, ELF userspace, secure package signing, and a robust desktop manager.
+- The goal of this repository is to create a serious foundation for those features in a manageable and testable form.

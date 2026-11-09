@@ -1,0 +1,43 @@
+#ifndef NEON_H
+#define NEON_H
+
+#include <stdint.h>
+
+#define VGA_WIDTH 80
+#define VGA_HEIGHT 25
+#define VGA_ADDRESS 0xB8000
+#define GREEN 0x0A
+#define CYAN 0x0B
+#define RED 0x0C
+#define WHITE 0x0F
+
+struct neon_memory_region {
+    uint32_t base;
+    uint32_t size;
+    uint32_t type;
+};
+
+struct neon_file {
+    char name[16];
+    uint32_t size;
+    uint32_t flags;
+    uint8_t trusted;
+};
+
+void clear_screen(void);
+void put_char(char ch);
+void print(const char *text);
+void print_hex32(uint32_t value);
+void memory_init(void);
+void memory_dump(void);
+void fs_init(void);
+void fs_register(const char *name, uint32_t size, uint8_t trusted);
+void fs_list(void);
+void idt_init(void);
+void pic_init(void);
+void keyboard_init(void);
+char keyboard_read(void);
+int scan_package(const char *package_name, const char *signature);
+void install_package(const char *package_name, const char *signature);
+
+#endif
