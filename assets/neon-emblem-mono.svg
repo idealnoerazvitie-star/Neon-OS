@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Neon OS monochrome emblem</title>
+  <desc id="desc">A high-contrast single-color angular Neon OS shield mark for monochrome printing and small icons.</desc>
+  <rect width="512" height="512" rx="86" fill="#050705"/>
+  <path d="M256 49 424 145v190L256 431 88 335V145L256 49Z" fill="none" stroke="#fff" stroke-width="12" stroke-linejoin="miter"/>
+  <path d="M172 329V183h42l84 99V183h42v146h-41l-85-99v99h-42Z" fill="#fff"/>
+  <text x="256" y="476" fill="#fff" font-family="monospace, sans-serif" font-size="21" font-weight="700" letter-spacing="7" text-anchor="middle">NEON OS</text>
+</svg>

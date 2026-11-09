@@ -1,0 +1,34 @@
+{
+  "meta": {
+    "schema_version": 1,
+    "distro": "Neon OS",
+    "release": "0.4",
+    "channel": "stable"
+  },
+  "packages": [
+    {
+      "name": "theme-studio",
+      "version": "1.0.0",
+      "arch": "all",
+      "repo": "apps",
+      "installed": true,
+      "signature": "sha256:theme-studio-v1-signed"
+    },
+    {
+      "name": "file-guardian",
+      "version": "1.0.0",
+      "arch": "all",
+      "repo": "apps",
+      "installed": true,
+      "signature": "sha256:file-guardian-v1-signed"
+    },
+    {
+      "name": "terminal-boost",
+      "version": "1.0.0",
+      "arch": "all",
+      "repo": "apps",
+      "installed": true,
+      "signature": "sha256:terminal-boost-v1-signed"
+    }
+  ]
+}
