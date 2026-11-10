@@ -1,34 +1,44 @@
-# Neon OS Phase 1: Bootloader + Protected Mode + VGA Kernel
+# Neon OS
 
-This phase establishes the first real bootable kernel skeleton for Neon OS.
+Neon OS is an **early bootable x86 prototype**, not yet a Linux distribution or a daily-use operating system. The current milestone is a BIOS boot sector that loads a small 32-bit kernel and displays a banner in VGA text mode. It does not yet have an interactive shell, keyboard input, a real filesystem, or the planned desktop/apps.
 
-What is implemented:
-- 16-bit BIOS boot sector
-- reads kernel from disk
-- enters protected mode
-- jumps into a 32-bit C kernel
-- prints a neon-green boot banner to VGA text mode
+## Try it safely in QEMU
 
-Files in this phase:
-- boot/boot.asm
-- kernel/entry.asm
-- kernel/kernel.c
-- linker.ld
-- include/neon.h
-- Makefile
+Run it in a virtual machine first; do not write the disk image to a physical drive.
 
-Build and run:
+### Requirements
+
+- NASM
+- GNU Make and binutils
+- QEMU with `qemu-system-i386`
+- `i686-elf-gcc` and `i686-elf-ld` (recommended bare-metal cross-compiler)
+
+On Debian/Ubuntu, install the common tools with:
+
+```bash
+sudo apt update
+sudo apt install make binutils nasm qemu-system-x86 gcc-multilib
+```
+
+If you use the distro's regular GCC instead of the recommended cross-compiler, build with `make CC=gcc LD=ld`.
+
+### Build and boot
+
+From the repository directory:
 
 ```bash
 make
 make run
 ```
 
-Requirements:
-- NASM
-- GNU Make
-- binutils
-- QEMU (`qemu-system-i386`)
-- `i686-elf-gcc` or a compatible bare-metal cross-compiler
+`make` creates `build/neon.img`. `make run` opens QEMU with a visible display; close the QEMU window or press `Ctrl+C` in the launching terminal to stop it. To rebuild from scratch, run `make clean` and then `make`.
 
-This is the first milestone of Neon OS and the foundation for all later phases.
+The bootloader currently loads only the first 16 kernel sectors (8192 bytes), and the build fails if the kernel exceeds that limit. This prototype targets legacy BIOS boot in QEMU; it is not UEFI-bootable and is not ready for real hardware.
+
+## Current implementation
+
+- 16-bit BIOS boot sector and disk read
+- transition to 32-bit protected mode
+- freestanding C kernel that writes a boot banner to VGA text memory
+
+See `docs/roadmap.md` for planned work. The memory, process, filesystem, security, and app concepts described in the repository are scaffolding/plans, not complete operating-system services.

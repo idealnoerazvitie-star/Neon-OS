@@ -1,6 +1,6 @@
 ASM ?= nasm
-CC ?= i686-elf-gcc
-LD ?= i686-elf-ld
+CC = i686-elf-gcc
+LD = i686-elf-ld
 OBJCOPY ?= objcopy
 QEMU ?= qemu-system-i386
 
@@ -32,6 +32,7 @@ $(BUILD_DIR)/kernel.o: kernel/kernel.c | $(BUILD_DIR)
 $(KERNEL_ELF): $(BUILD_DIR)/entry.o $(BUILD_DIR)/kernel.o linker.ld
 	$(LD) $(LDFLAGS) -T linker.ld -o $@ $(BUILD_DIR)/entry.o $(BUILD_DIR)/kernel.o
 	$(OBJCOPY) -O binary $@ $(KERNEL_BIN)
+	@test "$$(wc -c < $(KERNEL_BIN))" -le 8192 || { echo "Kernel is larger than the bootloader's 16-sector (8192-byte) limit." >&2; exit 1; }
 
 $(IMAGE): $(BOOT_BIN) $(KERNEL_ELF)
 	dd if=/dev/zero of=$@ bs=512 count=2880 status=none
@@ -39,7 +40,7 @@ $(IMAGE): $(BOOT_BIN) $(KERNEL_ELF)
 	dd if=$(KERNEL_BIN) of=$@ bs=512 seek=1 conv=notrunc status=none
 
 run: $(IMAGE)
-	$(QEMU) -drive file=$(IMAGE),format=raw -display none
+	$(QEMU) -drive file=$(IMAGE),format=raw -boot c
 
 clean:
 	rm -rf $(BUILD_DIR)
